@@ -60,9 +60,9 @@ initial_condition_control = {
     'cut_type': 'total_entropy',
     'initial_condition_type': 'superMC', # type of initial conditions
     # file path for the pre-generated initial condition files
-    'pre-generated_initial_file_path': 'initial_conditions', 
+    'pre-generated_initial_file_path': 'initial_conditions',
     # name pattern for the initial condition files
-    'pre-generated_initial_file_pattern': 'sd_event_[0-9]*_block.dat',  
+    'pre-generated_initial_file_pattern': 'sd_event_[0-9]*_block.dat',
     'pre-generated_initial_file_read_in_mode': 2, # read in mode for VISH2+1
 }
 
@@ -114,7 +114,7 @@ preEquilibriumControl = {
     'executable'                    :   'lm.e',
 }
 preEquilibriumParameters = {
-    'event_mode'            :    1,  
+    'event_mode'            :    1,
     'taumin'                :    0.6,
     'taumax'                :    0.6,
     'dtau'                  :    0.2,
@@ -127,7 +127,7 @@ hydroControl = {
     'resultDir'             :   'results', # hydro results folder, relative
     'resultFiles'           :   '*', # results files
     'saveICFile'            :   True, # whether to save initial condition file
-    'saveResultGlobs'       :   ['*.h5','surface.dat', 'dec*.dat', 'ecc*.dat'], 
+    'saveResultGlobs'       :   ['*.h5','surface.dat', 'dec*.dat', 'ecc*.dat'],
                                 # files match these globs will be saved
     'executable'            :   'VISHNew.e',
 }
@@ -271,12 +271,12 @@ def translate_centrality_cut():
         multiplicity_fluctuation = 'withMultFluct'
     else:
         multiplicity_fluctuation = 'noMultFluct'
-    
+
     if superMCParameters['include_NN_correlation'] != 0:
         NNcorrelation = 'withNNcorrelation'
     else:
         NNcorrelation = 'd0.9'
-    
+
     collision_energy = str(superMCParameters['ecm'])
 
     Aproj = superMCParameters['Aproj']
@@ -387,7 +387,7 @@ def get_pre_generated_initial_conditions_list():
         Yield the pre-generated initial conditions absolute path
     """
     # set directory strings
-    initial_condition_path = path.join(controlParameterList['rootDir'], 
+    initial_condition_path = path.join(controlParameterList['rootDir'],
                                        'initial_conditions')
 
     # yield initial conditions
@@ -405,9 +405,9 @@ def generateSuperMCInitialConditions(numberOfEvents):
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    superMCDirectory = path.join(controlParameterList['rootDir'], 
+    superMCDirectory = path.join(controlParameterList['rootDir'],
                                  superMCControl['mainDir'])
-    superMCDataDirectory = path.join(superMCDirectory, 
+    superMCDataDirectory = path.join(superMCDirectory,
                                      superMCControl['dataDir'])
     superMCExecutable = superMCControl['executable']
 
@@ -423,13 +423,13 @@ def generateSuperMCInitialConditions(numberOfEvents):
     # form assignment string
     assignments = formAssignmentStringFromDict(superMCParameters)
     # form executable string
-    executableString = ("nice -n %d ./" % (ProcessNiceness) 
+    executableString = ("nice -n %d ./" % (ProcessNiceness)
                         + superMCExecutable + assignments)
     # execute!
     run(executableString, cwd=superMCDirectory)
 
     # yield initial conditions
-    file_list = glob(path.join(superMCDataDirectory, 
+    file_list = glob(path.join(superMCDataDirectory,
                                superMCControl['initialFiles']))
     for aFile in file_list:
         # then yield it
@@ -443,11 +443,11 @@ def hydroWithInitialCondition(aFile):
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    hydroDirectory = path.join(controlParameterList['rootDir'], 
+    hydroDirectory = path.join(controlParameterList['rootDir'],
                                hydroControl['mainDir'])
-    hydroICDirectory = path.join(hydroDirectory, 
+    hydroICDirectory = path.join(hydroDirectory,
                                  hydroControl['initialConditionDir'])
-    hydroResultsDirectory = path.join(hydroDirectory, 
+    hydroResultsDirectory = path.join(hydroDirectory,
                                       hydroControl['resultDir'])
     hydroExecutable = hydroControl['executable']
 
@@ -460,7 +460,7 @@ def hydroWithInitialCondition(aFile):
 
     # check existence of the initial conditions
     if not path.exists(aFile):
-        raise ExecutionError("Hydro initial condition file %s not found!" 
+        raise ExecutionError("Hydro initial condition file %s not found!"
                              % aFile)
 
     # storing initial condition file
@@ -468,13 +468,13 @@ def hydroWithInitialCondition(aFile):
         copy(aFile, controlParameterList['eventResultDir'])
 
     # move initial condition to the designated folder
-    move(aFile, path.join(hydroICDirectory, 
+    move(aFile, path.join(hydroICDirectory,
                           hydroControl['initialConditionFile']))
 
     # form assignment string
     assignments = formAssignmentStringFromDict(hydroParameters)
     # form executable string
-    executableString = ("nice -n %d ./" % (ProcessNiceness) 
+    executableString = ("nice -n %d ./" % (ProcessNiceness)
                         + hydroExecutable + assignments)
     # execute!
     run(executableString, cwd=hydroDirectory)
@@ -483,7 +483,7 @@ def hydroWithInitialCondition(aFile):
     worthStoring = []
     for aGlob in hydroControl['saveResultGlobs']:
         worthStoring.extend(glob(path.join(hydroResultsDirectory, aGlob)))
-    file_list = glob(path.join(hydroResultsDirectory, 
+    file_list = glob(path.join(hydroResultsDirectory,
                                hydroControl['resultFiles']))
     for aFile in file_list:
         # check if this file worth storing, then copy to event result folder
@@ -494,8 +494,8 @@ def hydroWithInitialCondition(aFile):
 
 def hydro_with_pre_equilbirium(aFile):
     """
-        Perform a single pre-equilibrium evolution and hydro calculation with 
-        the given absolute path to an initial condition. Yield the result 
+        Perform a single pre-equilibrium evolution and hydro calculation with
+        the given absolute path to an initial condition. Yield the result
         files.
     """
     ProcessNiceness = controlParameterList['niceness']
@@ -507,22 +507,22 @@ def hydro_with_pre_equilbirium(aFile):
         pre_equilibrium_directory, preEquilibriumControl['initialConditionDir']
     )
     pre_equilibrium_results_directory = path.join(
-        pre_equilibrium_directory, preEquilibriumControl['resultDir'] 
+        pre_equilibrium_directory, preEquilibriumControl['resultDir']
                                    % preEquilibriumParameters['taumin']
     )
     pre_equilibrium_executable = preEquilibriumControl['executable']
 
     # hydro model
-    hydroDirectory = path.join(controlParameterList['rootDir'], 
+    hydroDirectory = path.join(controlParameterList['rootDir'],
                                hydroControl['mainDir'])
-    hydroICDirectory = path.join(hydroDirectory, 
+    hydroICDirectory = path.join(hydroDirectory,
                                  hydroControl['initialConditionDir'])
-    hydroResultsDirectory = path.join(hydroDirectory, 
+    hydroResultsDirectory = path.join(hydroDirectory,
                                       hydroControl['resultDir'])
     hydroExecutable = hydroControl['executable']
 
     # check executable
-    checkExistenceOfExecutable(path.join(pre_equilibrium_directory, 
+    checkExistenceOfExecutable(path.join(pre_equilibrium_directory,
                                          pre_equilibrium_executable))
     checkExistenceOfExecutable(path.join(hydroDirectory, hydroExecutable))
 
@@ -534,7 +534,7 @@ def hydro_with_pre_equilbirium(aFile):
 
     # check existence of the initial conditions
     if not path.exists(aFile):
-        raise ExecutionError("Hydro initial condition file %s not found!" 
+        raise ExecutionError("Hydro initial condition file %s not found!"
                              % aFile)
 
     # storing initial condition file
@@ -542,26 +542,26 @@ def hydro_with_pre_equilbirium(aFile):
         copy(aFile, controlParameterList['eventResultDir'])
 
     # first move initial condition to the pre-equilibrium folder
-    move(aFile, path.join(pre_equilibrium_ic_directory, 
+    move(aFile, path.join(pre_equilibrium_ic_directory,
                           preEquilibriumControl['initialConditionFile']))
 
     # form assignment string
     assignments = formAssignmentStringFromDict(preEquilibriumParameters)
     # form executable string
-    executableString = ("nice -n %d ./" % (ProcessNiceness) 
+    executableString = ("nice -n %d ./" % (ProcessNiceness)
                         + pre_equilibrium_executable + assignments)
     # execute!
     run(executableString, cwd=pre_equilibrium_directory)
 
     # then move pre-equilibrium results to hydro folder
-    for aFile in glob(path.join(pre_equilibrium_results_directory, 
+    for aFile in glob(path.join(pre_equilibrium_results_directory,
                                 preEquilibriumControl['resultFiles'])):
         file_name = aFile.split('/')[-1].split('kln')[0] + 'kln.dat'
         move(aFile, path.join(hydroICDirectory, file_name))
     # form assignment string
     assignments = formAssignmentStringFromDict(hydroParameters)
     # form executable string
-    executableString = ("nice -n %d ./" % (ProcessNiceness) 
+    executableString = ("nice -n %d ./" % (ProcessNiceness)
                         + hydroExecutable + assignments)
     # execute!
     run(executableString, cwd=hydroDirectory)
@@ -570,7 +570,7 @@ def hydro_with_pre_equilbirium(aFile):
     worthStoring = []
     for aGlob in hydroControl['saveResultGlobs']:
         worthStoring.extend(glob(path.join(hydroResultsDirectory, aGlob)))
-    for aFile in glob(path.join(hydroResultsDirectory, 
+    for aFile in glob(path.join(hydroResultsDirectory,
                                 hydroControl['resultFiles'])):
         # check if this file worth storing, then copy to event result folder
         if aFile in worthStoring:
@@ -585,7 +585,7 @@ def iSSWithHydroResultFiles(fileList):
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    iSSDirectory = path.join(controlParameterList['rootDir'], 
+    iSSDirectory = path.join(controlParameterList['rootDir'],
                              iSSControl['mainDir'])
     iSSOperationDirectory = path.join(iSSDirectory, iSSControl['operationDir'])
     iSSOSCARFilepath = path.join(iSSDirectory, iSSControl['OSCARFile'])
@@ -603,12 +603,12 @@ def iSSWithHydroResultFiles(fileList):
             raise ExecutionError("Hydro result file %s not found!" % aFile)
         else:
             move(aFile, iSSOperationDirectory)
-    
+
     # make sure all hadrons up to 2 GeV are calculated
-    copy(path.join(iSSDirectory, 'EOS', 'chosen_particles_urqmd_v3.3+.dat'), 
+    copy(path.join(iSSDirectory, 'EOS', 'chosen_particles_urqmd_v3.3+.dat'),
          path.join(iSSDirectory, 'EOS', 'chosen_particles.dat'))
     # make sure to use the pdg table with tagged decay photons
-    copy(path.join(iSSDirectory, 'EOS', 'pdg-urqmd_v3.3+.dat'), 
+    copy(path.join(iSSDirectory, 'EOS', 'pdg-urqmd_v3.3+.dat'),
          path.join(iSSDirectory, 'EOS', 'pdg.dat'))
 
     # form assignment string
@@ -625,7 +625,7 @@ def iSSWithHydroResultFiles(fileList):
         worthStoring.extend(glob(path.join(iSSOperationDirectory, aGlob)))
     for aFile in glob(path.join(iSSOperationDirectory, "*")):
         if aFile in worthStoring:
-            move(aFile, controlParameterList['eventResultDir'])
+            move(path.join(iSSOperationDirectory,aFile),path.join(controlParameterList['eventResultDir'],aFile))
 
     # return OSCAR file path
     return iSSOSCARFilepath
@@ -638,7 +638,7 @@ def iSWithResonancesWithHydroResultFiles(fileList):
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    iSDirectory = path.join(controlParameterList['rootDir'], 
+    iSDirectory = path.join(controlParameterList['rootDir'],
                             iSControl['mainDir'])
     iSOperationDirectory = path.join(iSDirectory, iSControl['operationDir'])
     iSExecutables = iSControl['executables']
@@ -657,13 +657,13 @@ def iSWithResonancesWithHydroResultFiles(fileList):
             raise ExecutionError("Hydro result file %s not found!" % aFile)
         else:
             move(aFile, iSOperationDirectory)
-    copy(path.join(iSDirectory, 'EOS', 'chosen_particles_s95pv1.dat'), 
+    copy(path.join(iSDirectory, 'EOS', 'chosen_particles_s95pv1.dat'),
          path.join(iSDirectory, 'EOS', 'chosen_particles.dat'))
-    copy(path.join(iSDirectory, 'EOS', 'pdg-s95pv1_withDecayPhotons.dat'), 
+    copy(path.join(iSDirectory, 'EOS', 'pdg-s95pv1_withDecayPhotons.dat'),
          path.join(iSDirectory, 'EOS', 'pdg.dat'))
 
     # execute!
-    run("nice -n %d bash ./" % (ProcessNiceness) + iSExecutionEntry, 
+    run("nice -n %d bash ./" % (ProcessNiceness) + iSExecutionEntry,
         cwd=iSDirectory)
 
     # save some of the important result files
@@ -681,10 +681,10 @@ def iSSeventplaneAngleWithHydroResultFiles(fileList):
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    iSSDirectory = path.join(controlParameterList['rootDir'], 
+    iSSDirectory = path.join(controlParameterList['rootDir'],
                              iSSControl['mainDir'])
-    iSSOperationDirectory = path.join(iSSDirectory, 
-                                      iSSControl['operationDir']) 
+    iSSOperationDirectory = path.join(iSSDirectory,
+                                      iSSControl['operationDir'])
     hydroH5Filepath = path.join(iSSOperationDirectory, 'JetData.h5')
     iSSExecutable = iSSControl['executable']
 
@@ -700,9 +700,9 @@ def iSSeventplaneAngleWithHydroResultFiles(fileList):
             raise ExecutionError("Hydro result file %s not found!" % aFile)
         else:
             move(aFile, iSSOperationDirectory)
-    copy(path.join(iSSDirectory, 'EOS', 'chosen_particles_urqmd_v3.3+.dat'), 
+    copy(path.join(iSSDirectory, 'EOS', 'chosen_particles_urqmd_v3.3+.dat'),
          path.join(iSSDirectory, 'EOS', 'chosen_particles.dat'))
-    copy(path.join(iSSDirectory, 'EOS', 'pdg-urqmd_v3.3+.dat'), 
+    copy(path.join(iSSDirectory, 'EOS', 'pdg-urqmd_v3.3+.dat'),
          path.join(iSSDirectory, 'EOS', 'pdg.dat'))
 
     # form assignment string
@@ -727,14 +727,14 @@ def iSSeventplaneAngleWithHydroResultFiles(fileList):
 def iSWithResonancesWithdecayPhotonWithHydroResultFiles(fileList):
     """
         Perform iS calculation using the given list of hydro result files,
-        followed by resonance calculations and iInteSp calculations with decay 
+        followed by resonance calculations and iInteSp calculations with decay
         photons.
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    iSDirectory = path.join(controlParameterList['rootDir'], 
+    iSDirectory = path.join(controlParameterList['rootDir'],
                             iSControl['mainDir'])
-    iSOperationDirectory = path.join(iSDirectory, iSControl['operationDir']) 
+    iSOperationDirectory = path.join(iSDirectory, iSControl['operationDir'])
     hydroH5Filepath = path.join(iSOperationDirectory, 'JetData.h5')
     iSExecutables = iSControl['executables']
     iSExecutionEntry = iSControl['entryShell']
@@ -756,22 +756,22 @@ def iSWithResonancesWithdecayPhotonWithHydroResultFiles(fileList):
     simulationType = controlParameterList['simulation_type']
     if simulationType == "hydroEM_with_decaycocktail_with_urqmd":
         # make sure all hadrons up to 2 GeV are calculated
-        copy(path.join(iSDirectory, 'EOS', 'chosen_particles_urqmd_v3.3+.dat'), 
+        copy(path.join(iSDirectory, 'EOS', 'chosen_particles_urqmd_v3.3+.dat'),
              path.join(iSDirectory, 'EOS', 'chosen_particles.dat'))
         # make sure to use the pdg table with tagged decay photons
-        copy(path.join(iSDirectory, 'EOS', 
-                       'pdg-urqmd_v3.3+_withDecayPhotons.dat'), 
+        copy(path.join(iSDirectory, 'EOS',
+                       'pdg-urqmd_v3.3+_withDecayPhotons.dat'),
              path.join(iSDirectory, 'EOS', 'pdg.dat'))
     else:
         # make sure all hadrons up to 2 GeV are calculated
-        copy(path.join(iSDirectory, 'EOS', 'chosen_particles_s95pv1.dat'), 
+        copy(path.join(iSDirectory, 'EOS', 'chosen_particles_s95pv1.dat'),
              path.join(iSDirectory, 'EOS', 'chosen_particles.dat'))
         # make sure to use the pdg table with tagged decay photons
-        copy(path.join(iSDirectory, 'EOS', 'pdg-s95pv1_withDecayPhotons.dat'), 
+        copy(path.join(iSDirectory, 'EOS', 'pdg-s95pv1_withDecayPhotons.dat'),
              path.join(iSDirectory, 'EOS', 'pdg.dat'))
 
     # execute!
-    run("nice -n %d bash ./" % (ProcessNiceness) + iSExecutionEntry, 
+    run("nice -n %d bash ./" % (ProcessNiceness) + iSExecutionEntry,
         cwd=iSDirectory)
 
     # save some of the important result files
@@ -781,18 +781,18 @@ def iSWithResonancesWithdecayPhotonWithHydroResultFiles(fileList):
     for aFile in glob(path.join(iSOperationDirectory, "*")):
         if aFile in worthStoring:
             move(aFile, controlParameterList['eventResultDir'])
-    
+
     # return hydro h5 file path
     return (hydroH5Filepath,)
 
 def photonEmissionWithHydroResultFiles(fileList):
     """
-        Perform thermal photon calculation using the given list of hydro 
+        Perform thermal photon calculation using the given list of hydro
         result files.
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    photonEmDirectory = path.join(controlParameterList['rootDir'], 
+    photonEmDirectory = path.join(controlParameterList['rootDir'],
                                   photonEmissionControl['mainDir'])
     photonEmOperationDirectory = path.join(
                     photonEmDirectory, photonEmissionControl['operationDir'])
@@ -932,7 +932,7 @@ def collectEbeResultsToDatabaseFrom(folder):
     """
     ProcessNiceness = controlParameterList['niceness']
     # set directory strings
-    collectorDirectory = path.join(controlParameterList['rootDir'], 
+    collectorDirectory = path.join(controlParameterList['rootDir'],
                                    EbeCollectorControl['mainDir'])
 
     # for executable string
@@ -940,51 +940,51 @@ def collectEbeResultsToDatabaseFrom(folder):
     if simulationType == 'hybrid':
         collectorExecutable = EbeCollectorControl['executable_hybrid']
         executableString = (
-            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable 
+            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable
             + " %s %g %s %s" % (
                 folder, 1.0/(iSSParameters['number_of_repeated_sampling']
-                            *(iSSParameters["y_RB"] - iSSParameters["y_LB"])), 
-                EbeCollectorParameters['subfolderPattern'], 
+                            *(iSSParameters["y_RB"] - iSSParameters["y_LB"])),
+                EbeCollectorParameters['subfolderPattern'],
                 EbeCollectorParameters['databaseFilename']))
     elif simulationType == 'hydro':
         collectorExecutable = EbeCollectorControl['executable_hydro']
         executableString = (
-            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable 
-            + " %s %s %s" %  (folder, 
-                              EbeCollectorParameters['subfolderPattern'], 
+            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable
+            + " %s %s %s" %  (folder,
+                              EbeCollectorParameters['subfolderPattern'],
                               EbeCollectorParameters['databaseFilename']))
     elif simulationType == 'hydroEM':
         collectorExecutable = EbeCollectorControl['executable_hydroEM']
         executableString = (
-            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable 
-            + " %s %s %s" %  (folder, 
-                              EbeCollectorParameters['subfolderPattern'], 
+            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable
+            + " %s %s %s" %  (folder,
+                              EbeCollectorParameters['subfolderPattern'],
                               EbeCollectorParameters['databaseFilename']))
     elif simulationType == 'hydroEM_with_decaycocktail':
         collectorExecutable = (
             EbeCollectorControl['executable_hydroEM_with_decaycocktail'])
         executableString = (
-            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable 
-            + " %s %s %s" %  (folder, 
-                              EbeCollectorParameters['subfolderPattern'], 
+            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable
+            + " %s %s %s" %  (folder,
+                              EbeCollectorParameters['subfolderPattern'],
                               EbeCollectorParameters['databaseFilename']))
     elif simulationType == 'hydroEM_with_decaycocktail_with_urqmd':
         collectorExecutable = (
             EbeCollectorControl['executable_hydroEM_with_decaycocktail'])
         executableString = (
-            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable + 
-            " %s %s %s" %  (folder, 
-                            EbeCollectorParameters['subfolderPattern'], 
+            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable +
+            " %s %s %s" %  (folder,
+                            EbeCollectorParameters['subfolderPattern'],
                             EbeCollectorParameters['databaseFilename']))
     elif simulationType == 'hydroEM_preEquilibrium':
         collectorExecutable = (
             EbeCollectorControl['executable_hydroEM_with_decaycocktail'])
         executableString = (
-            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable 
-            + " %s %s %s" %  (folder, 
-                              EbeCollectorParameters['subfolderPattern'], 
+            "nice -n %d python ./" % (ProcessNiceness) + collectorExecutable
+            + " %s %s %s" %  (folder,
+                              EbeCollectorParameters['subfolderPattern'],
                               EbeCollectorParameters['databaseFilename']))
-    
+
     # execute
     run(executableString, cwd=collectorDirectory)
 
@@ -1067,14 +1067,14 @@ def sequentialEventDriverShell():
         nev = len(initial_condition_list)
 
         # print current progress to terminal
-        stdout.write("PROGRESS: %d events out of %d finished.\n" 
+        stdout.write("PROGRESS: %d events out of %d finished.\n"
                      % (event_id, nev))
         stdout.flush()
 
         # loop over initial conditions
         for aInitialConditionFile in initial_condition_list:
             event_id += 1
-            eventResultDir = path.join(resultDir, 
+            eventResultDir = path.join(resultDir,
                 controlParameterList['eventResultDirPattern'] % event_id)
             controlParameterList['eventResultDir'] = eventResultDir
             if path.exists(eventResultDir):
@@ -1083,35 +1083,35 @@ def sequentialEventDriverShell():
 
             # print current progress to terminal
             print("Starting event %d..." % event_id)
-           
+
             initial_type = initial_condition_control['initial_condition_type']
             if initial_type == 'superMC':    # initial conditions from superMC
                 if superMCControl['saveICFile']:
                     initial_id = int(
                         aInitialConditionFile.split('/')[-1].split('_')[2])
                     superMCDataDirectory = path.join(
-                        controlParameterList['rootDir'], 
+                        controlParameterList['rootDir'],
                         superMCControl['mainDir'], superMCControl['dataDir'])
                     file_list = glob(path.join(superMCDataDirectory,
                         superMCControl['dataFiles'] % initial_id))
                     for aFile in file_list:
                         copy(aFile, controlParameterList['eventResultDir'])
-            elif initial_type == 'pre-generated':  
+            elif initial_type == 'pre-generated':
                 # initial conditions from pre-generated files
-                copy(aInitialConditionFile, 
+                copy(aInitialConditionFile,
                      controlParameterList['eventResultDir'])
-            
+
             if simulationType == 'hydroEM_preEquilibrium':
-                # perform hydro calculations with pre-equilibrium evolution 
+                # perform hydro calculations with pre-equilibrium evolution
                 # and get a list of all the result filenames
-                hydroResultFiles = [aFile for aFile in 
+                hydroResultFiles = [aFile for aFile in
                              hydro_with_pre_equilbirium(aInitialConditionFile)]
             else:
-                # perform hydro calculations and get a list of all the result 
+                # perform hydro calculations and get a list of all the result
                 # filenames
-                hydroResultFiles = [aFile for aFile in 
+                hydroResultFiles = [aFile for aFile in
                               hydroWithInitialCondition(aInitialConditionFile)]
-            
+
             # fork simulation type here
             if simulationType == 'hybrid':
                 # perform iSS calculation and return the path to the OSCAR file
@@ -1122,10 +1122,10 @@ def sequentialEventDriverShell():
                 urqmdOutputFilePath = urqmdFromOsc2uOutputFile(
                                                            osc2uOutputFilePath)
 
-                # copy and concatnate final results from all hydro events 
+                # copy and concatnate final results from all hydro events
                 # into one file
                 combinedUrqmdFile = path.join(
-                    controlParameterList['resultDir'], 
+                    controlParameterList['resultDir'],
                     controlParameterList['combinedUrqmdFile'])
                 open(combinedUrqmdFile, 'a').writelines(
                                          open(urqmdOutputFilePath).readlines())
@@ -1139,32 +1139,32 @@ def sequentialEventDriverShell():
             elif simulationType == 'hydro':
                 # perform iS calculation and resonance decays
                 iSWithResonancesWithHydroResultFiles(hydroResultFiles)
-            
+
             elif simulationType == 'hydroEM':
                 h5file = iSSeventplaneAngleWithHydroResultFiles(
                                                               hydroResultFiles)
                 # perform EM radiation calculation
                 photonEmissionWithHydroResultFiles(h5file)
-    
+
             elif simulationType == 'hydroEM_with_decaycocktail':
                 h5file = iSWithResonancesWithdecayPhotonWithHydroResultFiles(
                                                               hydroResultFiles)
                 # perform EM radiation calculation
                 photonEmissionWithHydroResultFiles(h5file)
-            
+
             elif simulationType == 'hydroEM_preEquilibrium':
                 # perform iS calculation and resonance decays
                 h5file = iSWithResonancesWithdecayPhotonWithHydroResultFiles(
                                                               hydroResultFiles)
                 # perform EM radiation calculation
                 photonEmissionWithHydroResultFiles(h5file)
-            
+
             elif simulationType == 'hydroEM_with_decaycocktail_with_urqmd':
                 h5file = iSWithResonancesWithdecayPhotonWithHydroResultFiles(
                                                               hydroResultFiles)
                 # perform EM radiation calculation
                 photonEmissionWithHydroResultFiles(h5file)
-                
+
                 # perform iSS calculation and return the path to the OSCAR file
                 OSCARFilePath = iSSWithHydroResultFiles(hydroResultFiles)
                 # perform osc2u
@@ -1175,12 +1175,12 @@ def sequentialEventDriverShell():
 
             #tarfile_name = (
             #             controlParameterList['eventResultDir'].split('/')[-1])
-            #call("tar -cf %s.tar %s" % (tarfile_name, tarfile_name), 
+            #call("tar -cf %s.tar %s" % (tarfile_name, tarfile_name),
             #     shell=True, cwd=resultDir)
             #call("rm -fr %s" % (tarfile_name,), shell=True, cwd=resultDir)
 
             # print current progress to terminal
-            stdout.write("PROGRESS: %d events out of %d finished.\n" 
+            stdout.write("PROGRESS: %d events out of %d finished.\n"
                          % (event_id, nev))
             stdout.flush()
 
