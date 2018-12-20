@@ -108,8 +108,9 @@ idx = 0
 for i in range(dim):
     for j in range(dim):
         output_data.append(
-            [output_x_array[i], output_y_array[j], output_e_field[idx], 
+            [output_x_array[i], output_y_array[j], output_e_field[idx],
              output_ux_field[idx], output_uy_field[idx]])
         idx += 1
-output_filename = input_filename.split('.dat')[0] + "_regulated.dat"
+output_filename = "sd_event_" + (input_filename.split('Hydro')[1]).split('.')[0] + "_block.dat"
 savetxt(output_filename, array(output_data), fmt = '%.10e', delimiter = '  ')
+
