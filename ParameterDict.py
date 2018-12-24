@@ -1,8 +1,8 @@
 controlParameterList = {
-    'simulation_type'       :   'hydroEM_with_decaycocktail', 
-    # options: 'hybrid', 'hydro', 'hydroEM', 'hydroEM_with_decaycocktail', 
+    'simulation_type'       :   'hydroEM_with_decaycocktail_with_urqmd',
+    # options: 'hybrid', 'hydro', 'hydroEM', 'hydroEM_with_decaycocktail',
     #          'hydroEM_preEquilibrium', 'hydroEM_with_decaycocktail_with_urqmd'
-    'niceness'              :   0,  
+    'niceness'              :   0,
     # range from 0 to 19 for process priority, 0 for the highest priority
 }
 
@@ -10,11 +10,11 @@ initial_condition_control = {
     'centrality': '30-40%',  # centrality bin
     'cut_type': 'total_entropy',
     # centrality cut variable: total_entropy or Npart
-    'initial_condition_type': 'superMC',
+    'initial_condition_type': 'pre-generated',
     # type of initial conditions: superMC or pre-generated
-    'pre-generated_initial_file_path': 'initial_conditions', 
+    'pre-generated_initial_file_path': 'initial_conditions',
     # file path for the pre-generated initial condition files
-    'pre-generated_initial_file_pattern': 'sd_event_[0-9]*_block.dat',  
+    'pre-generated_initial_file_pattern': 'sd_event_[0-9]*_block.dat',
     # name pattern for the initial condition files
     'pre-generated_initial_file_read_in_mode': 2, # read in mode for VISH2+1
 }
@@ -30,7 +30,7 @@ superMCParameters = {
     'operation'                     :   2,
     'include_NN_correlation'        :   1,
     'cc_fluctuation_model'          :   6,
-    'cc_fluctuation_Gamma_theta'    :   0.75,       
+    'cc_fluctuation_Gamma_theta'    :   0.75,
     'maxx'                          :   13.0,       # grid size in x (fm)
     'maxy'                          :   13.0,       # grid size in y (fm)
     'dx'                            :   0.1,        # grid spacing in x (fm)
@@ -39,7 +39,7 @@ superMCParameters = {
 
 # only effective when simulation_type == hydroEM_preEquilibrium
 preEquilibriumParameters = {
-    'event_mode'            :    1,  
+    'event_mode'            :    1,
     'taumin'                :    0.6,
     'taumax'                :    0.6,
     'dtau'                  :    0.2,
@@ -49,15 +49,15 @@ hydroParameters = {
     'vis'       :   0.08,
     'Ivisflag'  :   0,        # flag to use temperature dependent eta/s(T)
     'IvisBulkFlag'  :   0,    # flag for temperature dependence of bulk viscosity
-    'visbulknorm'   :   0.0,  # the overall normalization of the bulk viscosity 
+    'visbulknorm'   :   0.0,  # the overall normalization of the bulk viscosity
                               # (set to 0.0 for shear only simulation)
-    'IviscousEqsType'  :  2,  # type of evolution equations for viscous quantities 
+    'IviscousEqsType'  :  2,  # type of evolution equations for viscous quantities
                               # (1: Israel-Stewart eq. 2: DNMR eq.)
-    'T0'        :   0.6,      # tau_0
+    'T0'        :   0.4,      # tau_0
     'dt'        :   0.02,     # dtau
     'Edec'      :   0.18,
     'iLS'       :   130,      # lattice size in transverse plane 2*iLS+1
-    'dx'        :   0.10,     # lattice spacing in x (fm) 
+    'dx'        :   0.10,     # lattice spacing in x (fm)
                               # need to be the same as dx in superMC
     'dy'        :   0.10,     # lattice spacing in y (fm)
                               # need to be the same as dy in superMC
