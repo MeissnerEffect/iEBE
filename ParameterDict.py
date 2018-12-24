@@ -56,7 +56,7 @@ hydroParameters = {
     'T0'        :   0.4,      # tau_0
     'dt'        :   0.02,     # dtau
     'Edec'      :   0.18,
-    'iLS'       :   130,      # lattice size in transverse plane 2*iLS+1
+    'iLS'       :   170,      # lattice size in transverse plane 2*iLS+1
     'dx'        :   0.10,     # lattice spacing in x (fm)
                               # need to be the same as dx in superMC
     'dy'        :   0.10,     # lattice spacing in y (fm)
