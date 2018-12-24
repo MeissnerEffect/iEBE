@@ -2759,7 +2759,7 @@ void EmissionFunctionArray::shell()
         if (USE_OSCAR_FORMAT)
             combine_samples_to_OSCAR();
     }
-    else if (MC_sampling==3)
+    else
     {
         if (USE_OSCAR_FORMAT)
             combine_samples_to_OSCAR();
