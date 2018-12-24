@@ -196,7 +196,7 @@ photonEmissionParameters = {
 osc2uControl = {
     'mainDir'           :   'osc2u',
     'outputFilename'    :   'fort.14',
-    'saveOSCAR'         :   False, # whether to save OSCAR file
+    'saveOSCAR'         :   True, # whether to save OSCAR file
     'executable'        :   'osc2u.e',
 }
 osc2uParameters = {}
