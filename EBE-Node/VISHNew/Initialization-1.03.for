@@ -335,7 +335,7 @@ c          write(210,'(261(D24.14))')  (U0(I,J,NZ0), J=NYPhy0, NYPhy) !add this 
       Endif  ! InitialURead 
 
 !------------------- Energy initialization -----------------------------
-
+        IInit = 3
         If(IInit.eq.0) then ! Gaussian initial condition
             call initialES2Gaussian(Ed,Bd,Sd, DX,DY,DZ,DT,      !Gaussain initial condition
      &      NX0,NY0,NZ0, NX,NY,NZ, NXPhy0,NYPhy0, NXPhy,NYPhy)
@@ -383,7 +383,7 @@ C====Input the initial condition from file====
           End If ! IEin==0
         elseif (IInit.eq.3) then
 C====Input the initial condition from IP-Glasma file====
-            OPEN(2,file='Initial/Initial_ed_and_u.dat',status='old')
+            OPEN(2,file='Initial/InitialSd.dat',status='old')
 
             do I = NXPhy0, NXPhy, 1
               do J = NYPhy0, NYPhy, 1
