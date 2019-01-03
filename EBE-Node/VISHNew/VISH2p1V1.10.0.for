@@ -2674,14 +2674,14 @@ C====eta/s dependent on local temperature==================================
       Common /ViscousC / ViscousC,VisBeta, IVisflag ! Related to Shear Viscosity
 
       TT_GeV = TT*HbarC
-      Ttr = 0.18
+      Ttr = TFREEZ
       eta_over_s_min = 0.08
 
       if(TT_GeV .gt. Ttr) then
           if(IVisflag .eq. 2) then
-              ViscousCTemp = eta_over_s_min
-     &                       + 0.288*(TT_GeV/Ttr - 1.)
-     &                       + 0.0818*((TT_GeV/Ttr)**2. - 1.)
+              ViscousCTemp = -4.51 + 6.12*(TT_GeV/Ttr) -
+     &         1.7*(TT_GeV/Ttr)**2 + 0.214*(TT_GeV)**3 -
+     &         3.62*log((TT_GeV/Ttr))
           endif
           ViscousCTemp = eta_over_s_min
       else
