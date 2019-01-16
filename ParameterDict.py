@@ -55,7 +55,7 @@ hydroParameters = {
                               # (1: Israel-Stewart eq. 2: DNMR eq.)
     'T0'        :   0.4,      # tau_0
     'dt'        :   0.02,     # dtau
-    'Edec'      :   0.18,
+    'Edec'      :   0.329,
     'iLS'       :   170,      # lattice size in transverse plane 2*iLS+1
     'dx'        :   0.10,     # lattice spacing in x (fm)
                               # need to be the same as dx in superMC
