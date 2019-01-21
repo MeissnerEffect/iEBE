@@ -362,6 +362,8 @@ CSHEN======================================================================
       NY0=NYPhy0-5
       NZ0=1
 
+      open(129,FILE ='results/ViscositySamples.dat',status='REPLACE')
+
 CSHEN======output OSCAR file Header=========================================
       if(IOSCAR) then
             call OSCARheaderoutput(IOSCARWrite, NXPhy0, NXPhy,
@@ -387,6 +389,7 @@ CSHEN======set up output file for hydro evolution history===================
       Close(81)
       Close(82)
       Close(83)
+      close(129)
       close(IOSCARWrite)
       Close(377)
 !      Close(2293)
@@ -395,7 +398,6 @@ CSHEN======set up output file for hydro evolution history===================
       if(outputMovie) then 
          close(3773)
       endif
-
       End
 !-----------------------------------------------------------------------
 
@@ -2678,14 +2680,21 @@ C====eta/s dependent on local temperature==================================
       eta_over_s_min = 0.08
 
       if(TT_GeV .gt. Ttr) then
-          if(IVisflag .eq. 2) then
-              ViscousCTemp = -4.51 + 6.12*(TT_GeV/Ttr) -
-     &         1.7*(TT_GeV/Ttr)**2 + 0.214*(TT_GeVi/Ttr)**3 -
+          if(IVisflag .eq. 1) then
+                ViscousCTemp = -4.51 + 6.12*(TT_GeV/Ttr) 
+     & - 1.7*(TT_GeV/Ttr)**2 + 0.214*(TT_GeV/Ttr)**3 -
      &         3.62*log((TT_GeV/Ttr))
+          if(ViscousCTemp .lt. 0) then
+              ViscousCTemp = 666
           endif
+          else
           ViscousCTemp = eta_over_s_min
+          endif
       else
           ViscousCTemp = 0.5 ! Viscosity of hadron gas
+      endif
+      if(TT_GeV .gt. Ttr) then
+        write(129,*) (TT_GeV/Ttr), ViscousCTemp
       endif
 
       return
