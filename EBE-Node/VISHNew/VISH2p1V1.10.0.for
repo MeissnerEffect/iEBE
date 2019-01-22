@@ -2679,7 +2679,7 @@ C====eta/s dependent on local temperature==================================
       Ttr = 0.154
       eta_over_s_min = 0.08
 
-      if(TT_GeV .gt. 145) then
+      if(TT_GeV .gt. 0.145) then
           if(IVisflag .eq. 1) then
                 ViscousCTemp = -4.51 + 6.12*(TT_GeV/Ttr) 
      & - 1.7*(TT_GeV/Ttr)**2 + 0.214*(TT_GeV/Ttr)**3 -
