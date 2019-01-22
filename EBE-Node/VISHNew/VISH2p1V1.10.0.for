@@ -2687,7 +2687,7 @@ C====eta/s dependent on local temperature==================================
           else 
               if(IVisflag .eq.2) then
                   ViscousCTemp = 0.14/((TT_GeV/Ttr)**5.1) +
-     &             0.15/((((0.66* TT_GeV/Ttr)**2 -1)/((0.66
+     &             0.15/((((1/0.87352)*(0.66* TT_GeV/Ttr)**2 -1)/((0.66
      &             *TT_GeV/Ttr)**2*log((0.66*TT_GeV/Ttr)**2)))**1.6)
      &             -0.06
               else
