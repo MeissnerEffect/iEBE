@@ -2679,16 +2679,23 @@ C====eta/s dependent on local temperature==================================
       Ttr = 0.154
       eta_over_s_min = 0.08
 
-      if(TT_GeV .gt. Ttr) then
+      if(TT_GeV .gt. 145) then
           if(IVisflag .eq. 1) then
                 ViscousCTemp = -4.51 + 6.12*(TT_GeV/Ttr) 
      & - 1.7*(TT_GeV/Ttr)**2 + 0.214*(TT_GeV/Ttr)**3 -
      &         3.62*log((TT_GeV/Ttr))
+          else 
+              if(IVisflag .eq.2) then
+                  ViscousCTemp = 0.14/((TT_GeV/Ttr)**5.1) +
+     &             0.15/((((0.66* TT_GeV/Ttr)**2 -1)/((0.66
+     &             *TT_GeV/Ttr)**2*log((0.66*TT_GeV/Ttr)**2)))**1.6)
+     &             -0.06
+              else
+                  ViscousCTemp = eta_ove_s_min
+              endif
+          endif
           if(ViscousCTemp .lt. 0) then
               ViscousCTemp = 666
-          endif
-          else
-          ViscousCTemp = eta_over_s_min
           endif
       else
           ViscousCTemp = 0.5 ! Viscosity of hadron gas
